@@ -1,0 +1,205 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+
+local validKeys = {
+    ["ethan123"] = "https://direct-link.net/3282382/Vz966YaTPDWj",
+    ["ethan456"] = "https://link-hub.net/3282382/3wz7I5Lo5cXy"
+}
+
+local function playSound(id)
+    local s = Instance.new("Sound")
+    s.SoundId = "rbxassetid://"..id
+    s.Volume = 1
+    s.Parent = player:WaitForChild("PlayerGui")
+    s:Play()
+    game.Debris:AddItem(s,2)
+end
+
+local keyGui = Instance.new("ScreenGui")
+keyGui.Name = "KeySystem"
+keyGui.Parent = player:WaitForChild("PlayerGui")
+keyGui.ResetOnSpawn = false
+
+local frame = Instance.new("Frame", keyGui)
+frame.Size = UDim2.new(0, 360, 0, 200)
+frame.Position = UDim2.new(0.5, -180, 0.5, -100)
+frame.BackgroundColor3 = Color3.fromRGB(18,18,18)
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0,12)
+
+local stroke = Instance.new("UIStroke", frame)
+stroke.Color = Color3.fromRGB(0,255,140)
+
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1,0,0,40)
+title.BackgroundTransparency = 1
+title.Text = "Ethan Key System"
+title.Font = Enum.Font.GothamBold
+title.TextSize = 22
+title.TextColor3 = Color3.fromRGB(0,255,140)
+
+local box = Instance.new("TextBox", frame)
+box.Size = UDim2.new(1,-40,0,35)
+box.Position = UDim2.new(0,20,0,70)
+box.PlaceholderText = "Enter Key..."
+box.Text = ""
+box.TextColor3 = Color3.new(1,1,1)
+box.BackgroundColor3 = Color3.fromRGB(35,35,35)
+Instance.new("UICorner", box)
+
+local enter = Instance.new("TextButton", frame)
+enter.Size = UDim2.new(0.4,0,0,35)
+enter.Position = UDim2.new(0.1,0,0,130)
+enter.Text = "Enter"
+enter.BackgroundColor3 = Color3.fromRGB(35,35,35)
+enter.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", enter)
+
+local getKey = Instance.new("TextButton", frame)
+getKey.Size = UDim2.new(0.4,0,0,35)
+getKey.Position = UDim2.new(0.55,0,0,130)
+getKey.Text = "Get Key"
+getKey.BackgroundColor3 = Color3.fromRGB(35,35,35)
+getKey.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", getKey)
+
+getKey.MouseButton1Click:Connect(function()
+    playSound(9118828917)
+    setclipboard("https://link-hub.net/3282382/3wz7I5Lo5cXy")
+end)
+
+local function startEthan()
+    local autoFarm = false
+    local godMode = false
+    local flying = false
+
+    local character, humanoid, root
+    local flyConnection, bodyGyro, bodyVel
+
+    local function setupCharacter(char)
+        character = char
+        humanoid = char:WaitForChild("Humanoid")
+        root = char:WaitForChild("HumanoidRootPart")
+    end
+
+    if player.Character then setupCharacter(player.Character) end
+    player.CharacterAdded:Connect(setupCharacter)
+
+    local gui = Instance.new("ScreenGui")
+    gui.Name = "EthanScript"
+    gui.Parent = player:WaitForChild("PlayerGui")
+
+    local frame = Instance.new("Frame", gui)
+    frame.Size = UDim2.new(0,420,0,300)
+    frame.Position = UDim2.new(0.5,-210,0.5,-150)
+    frame.BackgroundColor3 = Color3.fromRGB(18,18,18)
+    frame.Active = true
+    Instance.new("UICorner", frame).CornerRadius = UDim.new(0,14)
+
+    local stroke = Instance.new("UIStroke", frame)
+    stroke.Color = Color3.fromRGB(0,255,140)
+
+    local title = Instance.new("TextLabel", frame)
+    title.Size = UDim2.new(1,0,0,40)
+    title.BackgroundTransparency = 1
+    title.Text = "Ethan Script"
+    title.Font = Enum.Font.GothamBold
+    title.TextSize = 20
+    title.TextColor3 = Color3.fromRGB(0,255,140)
+
+    local container = Instance.new("Frame", frame)
+    container.Size = UDim2.new(1,0,1,-45)
+    container.Position = UDim2.new(0,0,0,45)
+    container.BackgroundTransparency = 1
+
+    local function makeButton(text,y)
+        local b = Instance.new("TextButton", container)
+        b.Size = UDim2.new(1,-30,0,38)
+        b.Position = UDim2.new(0,15,0,y)
+        b.Text = text
+        b.BackgroundColor3 = Color3.fromRGB(35,35,35)
+        b.TextColor3 = Color3.new(1,1,1)
+        Instance.new("UICorner", b)
+        return b
+    end
+
+    local tp = makeButton("Teleport",10)
+    local speed = makeButton("Speed",55)
+    local fly = makeButton("Fly",100)
+    local god = makeButton("God Mode",145)
+    local farm = makeButton("Auto Farm",190)
+
+    tp.MouseButton1Click:Connect(function()
+        playSound(9118828917)
+        for _,plr in pairs(Players:GetPlayers()) do
+            if plr ~= player and plr.Character then
+                root.CFrame = plr.Character.HumanoidRootPart.CFrame
+                break
+            end
+        end
+    end)
+
+    speed.MouseButton1Click:Connect(function()
+        playSound(9118828917)
+        humanoid.WalkSpeed = humanoid.WalkSpeed == 16 and 50 or 16
+    end)
+
+    god.MouseButton1Click:Connect(function()
+        playSound(9118828917)
+        godMode = not godMode
+        if godMode then
+            humanoid.MaxHealth = math.huge
+            humanoid.Health = humanoid.MaxHealth
+        else
+            humanoid.MaxHealth = 100
+        end
+    end)
+
+    fly.MouseButton1Click:Connect(function()
+        playSound(9118828917)
+        flying = not flying
+        if flying then
+            bodyGyro = Instance.new("BodyGyro", root)
+            bodyVel = Instance.new("BodyVelocity", root)
+            bodyGyro.MaxTorque = Vector3.new(9e9,9e9,9e9)
+            bodyVel.MaxForce = Vector3.new(9e9,9e9,9e9)
+            flyConnection = RunService.RenderStepped:Connect(function()
+                bodyGyro.CFrame = workspace.CurrentCamera.CFrame
+                bodyVel.Velocity = workspace.CurrentCamera.CFrame.LookVector * 60
+            end)
+        else
+            if flyConnection then flyConnection:Disconnect() end
+            if bodyGyro then bodyGyro:Destroy() end
+            if bodyVel then bodyVel:Destroy() end
+        end
+    end)
+
+    farm.MouseButton1Click:Connect(function()
+        playSound(9118828917)
+        autoFarm = not autoFarm
+        task.spawn(function()
+            while autoFarm do
+                root.CFrame = CFrame.new(0,-2037,-5465)
+                task.wait(2)
+            end
+        end)
+    end)
+end
+
+enter.MouseButton1Click:Connect(function()
+    playSound(9118828917)
+    local key = box.Text:lower()
+    if validKeys[key] then
+        playSound(9118829170)
+        setclipboard(validKeys[key])
+        keyGui:Destroy()
+        startEthan()
+    else
+        playSound(9118829450)
+        box.Text = ""
+        box.PlaceholderText = "Invalid Key!"
+    end
+end)
